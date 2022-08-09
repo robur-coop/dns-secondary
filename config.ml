@@ -13,7 +13,7 @@ let dns_handler =
       package ~min:"5.0.0" ~sublibs:["mirage"] "dns-server";
       package "dns-tsig";
     ]
-  and keys = Key.([ abstract keys ])
+  and keys = Key.([ v keys ])
   in
   foreign
     ~keys
