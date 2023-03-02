@@ -23,9 +23,9 @@ let dns_handler =
 let enable_monitoring =
   let doc = Key.Arg.info
       ~doc:"Enable monitoring (only available for solo5 targets)"
-      [ "monitoring" ]
+      [ "enable-monitoring" ]
   in
-  Key.(create "metrics" Arg.(flag ~stage:`Configure doc))
+  Key.(create "enable-monitoring" Arg.(flag ~stage:`Configure doc))
 
 let stack = generic_stackv4v6 default_network
 
