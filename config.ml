@@ -29,10 +29,18 @@ let management_stack =
     (generic_stackv4v6 ~group:"management" (netif ~group:"management" "management"))
     stack
 
-let (name : string Runtime_key.key) = Runtime_key.create "Unikernel.K.name"
+let (name : string Runtime_key.key) =
+  Runtime_key.create ~name:"name"
+    {|(let doc = Cmdliner.Arg.info ~doc:"Name of the unikernel" ~docs:"MONITORING PARAMETERS" [ "name" ] in
+       Cmdliner.Arg.(value & opt string "a.ns.robur.coop" doc))|}
 
 let monitoring =
-  let monitor = Runtime_key.create "Unikernel.K.monitor" in
+  let monitor =
+    Runtime_key.create ~name:"monitor"
+      {|(let doc = "Monitor host" in
+        let doc = Cmdliner.Arg.info ~docs:"MONITORING PARAMETERS" ~docv:"IP" ~doc [ "monitor" ] in
+        Cmdliner.Arg.(value & opt (some Mirage_runtime_network.ip_address) None doc))|}
+  in
   let connect _ modname = function
     | [ _ ; _ ; stack ] ->
       Fmt.str "Lwt.return (match %a with\
@@ -49,7 +57,12 @@ let monitoring =
     (time @-> pclock @-> stackv4v6 @-> job)
 
 let syslog =
-  let syslog = Runtime_key.create "Unikernel.K.syslog" in
+  let syslog =
+    Runtime_key.create ~name:"syslog"
+      {|(let doc = "Syslog host" in
+        let doc = Cmdliner.Arg.info ~docs:"MONITORING PARAMETERS" ~docv:"IP" ~doc [ "syslog" ] in
+        Cmdliner.Arg.(value & opt (some Mirage_runtime_network.ip_address) None doc))|}
+  in
   let connect _ modname = function
     | [ _ ; stack ] ->
       Fmt.str "Lwt.return (match %a with\

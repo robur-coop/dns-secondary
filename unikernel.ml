@@ -9,22 +9,6 @@ module K = struct
   let keys =
     let doc = Arg.info ~doc:"nsupdate keys (name:type:value,...)" [ "keys" ] in
     Arg.(value & opt_all key [] doc) |> Mirage_runtime.key
-
-  let name =
-    let doc = Arg.info ~doc:"Name of the unikernel" [ "name" ] in
-    Arg.(value & opt string "a.ns.robur.coop" doc)
-
-  let ip =
-    Arg.conv ~docv:"IP" (Ipaddr.of_string, Ipaddr.pp)
-
-  let monitor =
-    let doc = Arg.info ~doc:"monitor host IP" [ "monitor" ] in
-    Arg.(value & opt (some ip) None doc)
-
-  let syslog =
-    let doc = Arg.info ~doc:"syslog host IP" [ "syslog" ] in
-    Arg.(value & opt (some ip) None doc)
-
 end
 
 module Main (R : Mirage_random.S) (P : Mirage_clock.PCLOCK) (M : Mirage_clock.MCLOCK) (T : Mirage_time.S) (S : Tcpip.Stack.V4V6) = struct
