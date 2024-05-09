@@ -17,13 +17,6 @@ let dns_handler =
     ~packages
     "Unikernel.Main" (random @-> pclock @-> mclock @-> time @-> stackv4v6 @-> job)
 
-let enable_monitoring =
-  let doc = Key.Arg.info
-      ~doc:"Enable monitoring (only available for solo5 targets)"
-      [ "enable-monitoring" ]
-  in
-  Key.(create "enable-monitoring" Arg.(flag doc))
-
 (* uTCP *)
 
 let tcpv4v6_direct_conf id =
@@ -62,6 +55,13 @@ let stack =
     (Key.value use_utcp)
     (net "service" default_network)
     (generic_stackv4v6 default_network)
+
+let enable_monitoring =
+  let doc = Key.Arg.info
+      ~doc:"Enable monitoring (syslog, metrics to influx, log level, statmemprof tracing)"
+      [ "enable-monitoring" ]
+  in
+  Key.(create "enable-monitoring" Arg.(flag doc))
 
 let management_stack =
   if_impl
