@@ -7,7 +7,7 @@ let dns_handler =
   let packages =
     [
       package "logs" ;
-      package ~min:"5.0.0" ~sublibs:["mirage"] "dns-server";
+      package ~min:"9.1.0" ~sublibs:["mirage"] "dns-server";
       package "dns-tsig";
     ]
   in
