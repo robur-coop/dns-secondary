@@ -9,7 +9,7 @@ module K = struct
                   (fun ppf v -> Fmt.string ppf (name_key_to_string v)))
 
   let keys =
-    let doc = Arg.info ~doc:"nsupdate keys (name:type:value,...)" ["keys"] in
+    let doc = Arg.info ~doc:"nsupdate keys (name:type:value,...)" ["key"; "keys"] in
     Mirage_runtime.register_arg Arg.(value & opt_all key [] doc)
 end
 
