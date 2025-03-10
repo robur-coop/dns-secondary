@@ -13,12 +13,12 @@ module K = struct
     Mirage_runtime.register_arg Arg.(value & opt_all key [] doc)
 end
 
-module Main (R : Mirage_crypto_rng_mirage.S) (P : Mirage_clock.PCLOCK) (M : Mirage_clock.MCLOCK) (T : Mirage_time.S) (S : Tcpip.Stack.V4V6) = struct
-  module D = Dns_server_mirage.Make(P)(M)(T)(S)
+module Main (S : Tcpip.Stack.V4V6) = struct
+  module D = Dns_server_mirage.Make(S)
 
-  let start _rng _pclock _mclock _ s =
+  let start s =
     let t =
-      Dns_server.Secondary.create ~rng:R.generate
+      Dns_server.Secondary.create ~rng:Mirage_crypto_rng.generate
         ~tsig_verify:Dns_tsig.verify ~tsig_sign:Dns_tsig.sign (K.keys ())
     in
     D.secondary s t ;
